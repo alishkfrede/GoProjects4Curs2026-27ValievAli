@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      REDIS_HOST: redis
+    networks:
+      - back-tier
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    driver: bridge
