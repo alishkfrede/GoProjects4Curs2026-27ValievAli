@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заметки — Вход</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>📝 Заметки</h1>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('login')">Вход</button>
+                <button class="tab" onclick="showTab('register')">Регистрация</button>
+            </div>
+
+            <div id="error" class="error"></div>
+
+            <!-- Вход -->
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Пароль" required>
+                <button type="submit" class="primary">Войти</button>
+            </form>
+
+            <!-- Регистрация -->
+            <form id="register-form" class="hidden">
+                <input type="email" id="reg-email" placeholder="Email" required>
+                <input type="password" id="reg-password" placeholder="Пароль" required>
+                <button type="submit" class="primary">Создать аккаунт</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API = ''; // тот же домен
+
+        function showTab(tab) {
+            document.getElementById('error').textContent = '';
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
+        }
+
+        async function apiPost(path, body) {
+            const res = await fetch(API + path, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Ошибка');
+            return data;
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const data = await apiPost('/login', {
+                    email: document.getElementById('login-email').value,
+                    password: document.getElementById('login-password').value
+                });
+                localStorage.setItem('token', data.token);
+                window.location.href = 'notes.html';
+            } catch (err) {
+                document.getElementById('error').textContent = err.message;
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                await apiPost('/register', {
+                    email: document.getElementById('reg-email').value,
+                    password: document.getElementById('reg-password').value
+                });
+                alert('Аккаунт создан! Войдите в систему.');
+                showTab('login');
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.querySelectorAll('.tab')[1].classList.remove('active');
+            } catch (err) {
+                document.getElementById('error').textContent = err.message;
+            }
+        });
+    </script>
+</body>
+</html>

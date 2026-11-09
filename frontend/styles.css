@@ -1,0 +1,145 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #333f77 0%, #3e205c 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #1d1d1f;
+}
+.container { max-width: 700px; margin: 40px auto; }
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+h1, h2 { margin-bottom: 20px; }
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab {
+    flex: 1;
+    padding: 12px;
+    background: #f0f0f5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.tab.active { background: #667eea; color: white; }
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+}
+textarea { resize: vertical; min-height: 140px; }
+button.primary {
+    width: 100%;
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button.primary:hover { background: #5568d3; }
+.btn-danger { background: #ff3b30; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+.btn-danger:hover { background: #e0342b; }
+.btn-ghost { background: none; border: none; color: #667eea; cursor: pointer; font-size: 14px; }
+.error { color: #ff3b30; margin-bottom: 12px; font-size: 14px; min-height: 20px; }
+.hidden { display: none; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.note-item {
+    background: #f9f9fb;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #eee;
+}
+.note-item .info { flex: 1; cursor: pointer; }
+.note-item h3 { font-size: 16px; margin-bottom: 4px; }
+.note-item p { font-size: 13px; color: #86868b; }
+.actions { display: flex; gap: 10px; margin-top: 12px; }* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #1d1d1f;
+}
+.container { max-width: 700px; margin: 40px auto; }
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+h1, h2 { margin-bottom: 20px; }
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab {
+    flex: 1;
+    padding: 12px;
+    background: #f0f0f5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.tab.active { background: #667eea; color: white; }
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+}
+textarea { resize: vertical; min-height: 140px; }
+button.primary {
+    width: 100%;
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button.primary:hover { background: #5568d3; }
+.btn-danger { background: #ff3b30; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+.btn-danger:hover { background: #e0342b; }
+.btn-ghost { background: none; border: none; color: #667eea; cursor: pointer; font-size: 14px; }
+.error { color: #ff3b30; margin-bottom: 12px; font-size: 14px; min-height: 20px; }
+.hidden { display: none; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.note-item {
+    background: #f9f9fb;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #eee;
+}
+.note-item .info { flex: 1; cursor: pointer; }
+.note-item h3 { font-size: 16px; margin-bottom: 4px; }
+.note-item p { font-size: 13px; color: #86868b; }
+.actions { display: flex; gap: 10px; margin-top: 12px; }

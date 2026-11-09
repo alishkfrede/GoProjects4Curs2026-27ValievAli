@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои заметки</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="toolbar">
+                <h1>📝 Мои заметки</h1>
+                <button class="btn-ghost" onclick="logout()">Выйти</button>
+            </div>
+
+            <!-- Форма создания/редактирования -->
+            <div id="editor" class="hidden" style="margin-bottom: 20px;">
+                <input type="text" id="note-title" placeholder="Заголовок">
+                <textarea id="note-content" placeholder="Текст заметки..."></textarea>
+                <div class="actions">
+                    <button class="primary" style="flex:1" onclick="saveNote()">Сохранить</button>
+                    <button class="btn-ghost" onclick="closeEditor()">Отмена</button>
+                </div>
+            </div>
+
+            <button class="primary" id="new-btn" onclick="openEditor()">+ Новая заметка</button>
+
+            <div id="list" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API = '';
+        let editingId = null;
+
+        // Проверка авторизации
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'index.html';
+        }
+
+        async function api(path, options = {}) {
+            const token = localStorage.getItem('token');
+            const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
+            const res = await fetch(API + path, { ...options, headers });
+            if (res.status === 401) { logout(); throw new Error('Unauthorized'); }
+            return res;
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+
+        function openEditor(note = null) {
+            editingId = note ? note.id : null;
+            document.getElementById('note-title').value = note ? note.title : '';
+            document.getElementById('note-content').value = note ? note.content : '';
+            document.getElementById('editor').classList.remove('hidden');
+            document.getElementById('new-btn').classList.add('hidden');
+        }
+
+        function closeEditor() {
+            editingId = null;
+            document.getElementById('editor').classList.add('hidden');
+            document.getElementById('new-btn').classList.remove('hidden');
+        }
+
+        async function saveNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const content = document.getElementById('note-content').value;
+            if (!title) { alert('Введите заголовок'); return; }
+
+            try {
+                if (editingId) {
+                    // В API нет PUT — удаляем старую и создаём новую
+                    await api(`/notes/${editingId}`, { method: 'DELETE' });
+                }
+                await api('/notes', {
+                    method: 'POST',
+                    body: JSON.stringify({ title, content })
+                });
+                closeEditor();
+                loadNotes();
+            } catch (err) {
+                alert('Ошибка сохранения');
+            }
+        }
+
+        async function deleteNote(id) {
+            if (!confirm('Удалить заметку?')) return;
+            await api(`/notes/${id}`, { method: 'DELETE' });
+            loadNotes();
+        }
+
+        async function loadNotes() {
+            const res = await api('/notes');
+            const notes = await res.json();
+            const list = document.getElementById('list');
+
+            if (notes.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:#86868b; padding:20px;">Заметок пока нет</p>';
+                return;
+            }
+
+            list.innerHTML = notes.map(n => `
+                <div class="note-item">
+                    <div class="info" onclick='openEditor(${JSON.stringify(n)})'>
+                        <h3>${escapeHtml(n.title)}</h3>
+                        <p>${escapeHtml((n.content || '').substring(0, 80))}</p>
+                    </div>
+                    <button class="btn-danger" onclick="deleteNote('${n.id}')">Удалить</button>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+        loadNotes();
+    </script>
+</body>
+</html>
